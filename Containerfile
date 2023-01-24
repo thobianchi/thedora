@@ -5,7 +5,7 @@ FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_MAJOR_VERSION}
 RUN rpm-ostree install \
         https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
         https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
-    rpm-ostree ex apply-live
+    sudo rpm-ostree ex apply-live
 RUN  rpm-ostree update \
         --uninstall rpmfusion-free-release-$(rpm -E %fedora) \
         --uninstall rpmfusion-nonfree-release-$(rpm -E %fedora) \
