@@ -7,8 +7,8 @@ RUN rpm-ostree install \
         https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
     sudo rpm-ostree ex apply-live
 RUN  rpm-ostree update \
-        --uninstall rpmfusion-free-release-$(rpm -E %fedora) \
-        --uninstall rpmfusion-nonfree-release-$(rpm -E %fedora) \
+        --uninstall rpmfusion-free-release \
+        --uninstall rpmfusion-nonfree-release \
         --install rpmfusion-free-release \
         --install rpmfusion-nonfree-release
 RUN rpm-ostree override remove opensc && \
