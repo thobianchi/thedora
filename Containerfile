@@ -2,18 +2,12 @@ ARG FEDORA_MAJOR_VERSION=37
 
 FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_MAJOR_VERSION}
 
-RUN rpm-ostree install \
+RUN dnf -y install \
         https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
         https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
-    sudo rpm-ostree ex apply-live
-RUN  rpm-ostree update \
-        --uninstall rpmfusion-free-release \
-        --uninstall rpmfusion-nonfree-release \
-        --install rpmfusion-free-release \
-        --install rpmfusion-nonfree-release
-RUN rpm-ostree override remove opensc && \
-    rpm-ostree initramfs --enable --arg=--force-add --arg=fido2 && \
-    rpm-ostree install \
+
+RUN dnf erase -y opensc && \
+    dnf install -y \
     dconf-editor \
     fido2-tools \
     firewall-config \
@@ -37,6 +31,8 @@ RUN rpm-ostree override remove opensc && \
     rpmfusion-free-release \
     rpmfusion-nonfree-release \
     chromium-libs-media-freeworld 
+
+    # rpm-ostree initramfs --enable --arg=--force-add --arg=fido2 && \
 
 RUN sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
