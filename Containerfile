@@ -15,7 +15,6 @@ RUN rpm-ostree install \
     firewall-config \
     fzf \
     gnome-tweaks \
-    google-chrome-stable \
     gparted \
     igt-gpu-tools \
     langpacks-en \
@@ -33,6 +32,7 @@ RUN rpm-ostree install \
     rpmfusion-free-release \
     rpmfusion-nonfree-release \
     chromium-libs-media-freeworld 
+    # google-chrome-stable \
 
 RUN sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
