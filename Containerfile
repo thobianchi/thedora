@@ -38,5 +38,6 @@ RUN sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-os
     systemctl enable rpm-ostreed-automatic.timer
 
 COPY etc /etc
+RUN rm -f /usr/share/flatpak/fedora-flathub.filter
 
 RUN ostree container commit
