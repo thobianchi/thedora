@@ -37,6 +37,6 @@ RUN rpm-ostree install \
 RUN sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer
 
-RUN flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+COPY etc /etc
 
-# RUN ostree container commit
+RUN ostree container commit
