@@ -1,6 +1,6 @@
 ARG FEDORA_MAJOR_VERSION=37
 
-FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_MAJOR_VERSION}
+FROM quay.io/fedora/fedora-coreos:stable
 
 RUN rpm-ostree install \
         https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
@@ -24,22 +24,18 @@ RUN rpm-ostree install \
     tilix-nautilus \
     tmux \
     zsh \
-    libva-utils
-    ffmpeg \
-    ffmpeg-libs \
+    libva-utils \
     gstreamer1-plugin-openh264 \
     intel-media-driver \
     rpmfusion-free-release \
     rpmfusion-nonfree-release \
-    chromium-libs-media-freeworld 
-    # google-chrome-stable \
+    chromium-libs-media-freeworld \
+    ffmpeg \
+    ffmpeg-libs
+    # google-chrome-stable
 
 RUN sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
-    systemctl enable rpm-ostreed-automatic.timer && \
-    ostree container commit
+    systemctl enable rpm-ostreed-automatic.timer
 
-# sudo rpm-ostree update \
-#   --uninstall rpmfusion-free-release \
-#   --uninstall rpmfusion-nonfree-release \
-#   --install rpmfusion-free-release \
-#   --install rpmfusion-nonfree-release
+RUN rm -f var/lib/gdm/.config/pulse/default.pa var/lib/xkb/README.compiled && \
+    ostree container commit
