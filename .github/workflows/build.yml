@@ -13,7 +13,7 @@ jobs:
     name: Build and push image
     runs-on: ubuntu-22.04
     container: 
-      image: registry.fedoraproject.org/fedora-minimal:37
+      image: registry.fedoraproject.org/fedora:37
       options: --privileged
     permissions:
       contents: read
@@ -21,8 +21,8 @@ jobs:
       id-token: write
 
     steps: 
-      - name: Install ostree
-        run: microdnf install -y ostree rpm-ostree tar git
+      #- name: Install ostree
+      #  run: microdnf install -y ostree rpm-ostree tar git
 
       - name: Checkout This Repo
         uses: actions/checkout@v3
