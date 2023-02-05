@@ -12,7 +12,9 @@ jobs:
   push-ghcr:
     name: Build and push image
     runs-on: ubuntu-22.04
-    container: quay.io/coreos-assembler/coreos-assembler
+    container: 
+      image: quay.io/coreos-assembler/coreos-assembler
+      options: --entrypoint /bin/bash
     permissions:
       contents: read
       packages: write
@@ -29,7 +31,7 @@ jobs:
           path: ./workstation-ostree-config
           fetch-depth: 1
           
-      - name: move files from workstation-ostree-config to this dir
+      - name: Move files from workstation-ostree-config to this dir
         run: mv ./workstation-ostree-config/* .
 
       # Cache
