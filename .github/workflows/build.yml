@@ -21,8 +21,8 @@ jobs:
       id-token: write
 
     steps: 
-      #- name: Install ostree
-      #  run: microdnf install -y ostree rpm-ostree tar git
+      - name: Install ostree
+        run: dnf install -y ostree rpm-ostree tar git
 
       - name: Checkout This Repo
         uses: actions/checkout@v3
