@@ -1,0 +1,34 @@
+include: fedora-silverblue.yaml
+ref: fedora/37/${basearch}/thedora
+rojig:
+  name: fedora-thedora
+  summary: "Fedora Silverblue with thobianchi personalizations"
+  license: MIT
+repos:
+  - rpmfusion-nonfree
+  - rpmfusion-nonfree-updates
+  - rpmfusion-free
+  - rpmfusion-free-updates
+  - google-chrome
+packages:
+  - chromium-libs-media-freeworld
+  - dconf-editor
+  - ffmpeg
+  - ffmpeg-libs
+  - fido2-tools
+  - firewall-config
+  - fzf
+  - gnome-tweaks
+  - google-chrome-stable
+  - gparted
+  # - gstreamer1-plugin-openh264
+  - igt-gpu-tools
+  - intel-media-driver
+  - langpacks-en
+  - libva-utils
+  # - mozilla-openh264
+  - pam-u2f
+  - tilix
+  - tilix-nautilus
+  - tmux
+  - zsh
