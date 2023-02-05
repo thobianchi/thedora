@@ -25,12 +25,11 @@ jobs:
 
       - name: Checkout This Repo
         uses: actions/checkout@v3
-
-      - name: Clone workstation-ostree-config
-        run: git clone https://pagure.io/workstation-ostree-config ..
+        with:
+          submodules: true
 
       - name: Move files from workstation-ostree-config to this dir
-        run: mv ../workstation-ostree-config/* .
+        run: mv workstation-ostree-config/* .
 
       # Cache
       
