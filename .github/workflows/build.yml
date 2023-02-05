@@ -21,21 +21,16 @@ jobs:
 
     steps: 
       - name: Install ostree
-        run: microdnf install -y ostree rpm-ostree tar
+        run: microdnf install -y ostree rpm-ostree tar git
 
       - name: Checkout This Repo
         uses: actions/checkout@v3
 
-      - name: Checkout workstation-ostree-config
-        uses: actions/checkout@v3
-        with:
-          repository: https://pagure.io/workstation-ostree-config
-          path: ./workstation-ostree-config
-          fetch-depth: 1
-          ref: f37
-          
+      - name: Clone workstation-ostree-config
+        run: git clone https://pagure.io/workstation-ostree-config ..
+
       - name: Move files from workstation-ostree-config to this dir
-        run: mv ./workstation-ostree-config/* .
+        run: mv ../workstation-ostree-config/* .
 
       # Cache
       
