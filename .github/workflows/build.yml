@@ -13,14 +13,16 @@ jobs:
     name: Build and push image
     runs-on: ubuntu-22.04
     container: 
-      image: quay.io/coreos-assembler/coreos-assembler
-      options: --entrypoint /bin/bash
+      image: registry.fedoraproject.org/fedora-minimal:37
     permissions:
       contents: read
       packages: write
       id-token: write
 
     steps: 
+      - name: Install ostree
+        run: microdnf install -y ostree rpm-ostree
+
       - name: Checkout This Repo
         uses: actions/checkout@v3
 
@@ -30,6 +32,7 @@ jobs:
           repository: https://pagure.io/workstation-ostree-config
           path: ./workstation-ostree-config
           fetch-depth: 1
+          ref: f37
           
       - name: Move files from workstation-ostree-config to this dir
         run: mv ./workstation-ostree-config/* .
