@@ -21,7 +21,7 @@ jobs:
 
     steps: 
       - name: Install ostree
-        run: microdnf install -y ostree rpm-ostree
+        run: microdnf install -y ostree rpm-ostree tar
 
       - name: Checkout This Repo
         uses: actions/checkout@v3
