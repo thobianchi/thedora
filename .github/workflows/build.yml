@@ -22,7 +22,7 @@ jobs:
 
     steps: 
       - name: Install ostree
-        run: dnf install -y ostree rpm-ostree tar git policycoreutils
+        run: dnf install -y ostree rpm-ostree tar git rpm-ostree selinux-policy selinux-policy-targeted policycoreutils
 
       - name: Checkout This Repo
         uses: actions/checkout@v3
