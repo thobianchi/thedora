@@ -12,7 +12,7 @@ jobs:
   push-ghcr:
     name: Build and push image
     runs-on: ubuntu-22.04
-    container: 
+    container:
       image: registry.fedoraproject.org/fedora:37
       options: --privileged
     permissions:
@@ -20,7 +20,7 @@ jobs:
       packages: write
       id-token: write
 
-    steps: 
+    steps:
       - name: Install ostree
         run: dnf install -y ostree rpm-ostree tar git rpm-ostree selinux-policy selinux-policy-targeted policycoreutils
 
@@ -32,8 +32,18 @@ jobs:
       - name: Move files from workstation-ostree-config to this dir
         run: mv workstation-ostree-config/* .
 
-      # Cache
-      
+      - name: Get Date for Cache
+        id: get-date
+        run: |
+          echo "date=$(/bin/date -u "+%Y%V")" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: cache
+          key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
+
       - name: Init build
         run: |
           mkdir -p repo cache
@@ -41,6 +51,9 @@ jobs:
 
       - name: Build tree
         run: rpm-ostree compose tree --repo=repo --unified-core --cachedir=cache thedora.yaml
+
+      - name: Create docker image
+        run: rpm-ostree compose container-encapsulate --repo=repo
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
       # https://github.com/macbre/push-to-ghcr/issues/12
