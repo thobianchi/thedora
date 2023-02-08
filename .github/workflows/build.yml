@@ -21,8 +21,8 @@ jobs:
       id-token: write
 
     steps:
-      - name: Install ostree
-        run: dnf install -y ostree rpm-ostree tar git rpm-ostree selinux-policy selinux-policy-targeted policycoreutils
+      - name: Install build dependencies
+        run: dnf install -y ostree rpm-ostree tar git rpm-ostree selinux-policy selinux-policy-targeted policycoreutils binutils
 
       - name: Checkout This Repo
         uses: actions/checkout@v3
@@ -38,22 +38,22 @@ jobs:
           echo "date=$(/bin/date -u "+%Y%V")" >> $GITHUB_OUTPUT
         shell: bash
 
+      - name: Init build
+        run: |
+          mkdir -p repo cache
+          ostree --repo=repo init --mode=archive
+
       - name: Cache
         uses: actions/cache@v3
         with:
           path: cache
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
 
-      - name: Init build
-        run: |
-          mkdir -p repo cache
-          ostree --repo=repo init --mode=archive
-
       - name: Build tree
         run: rpm-ostree compose tree --repo=repo --unified-core --cachedir=cache thedora.yaml
 
-      - name: Create docker image
-        run: rpm-ostree compose container-encapsulate --repo=repo
+      #- name: Create docker image
+      #  run: rpm-ostree compose container-encapsulate --repo=repo
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
       # https://github.com/macbre/push-to-ghcr/issues/12
