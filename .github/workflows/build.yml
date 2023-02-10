@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Install build dependencies
-        run: dnf install -y ostree rpm-ostree tar git rpm-ostree selinux-policy selinux-policy-targeted policycoreutils binutils
+        run: dnf install -y ostree rpm-ostree tar git rpm-ostree selinux-policy selinux-policy-targeted policycoreutils binutils skopeo
 
       - name: Install Docker CLI
         run: |
@@ -58,11 +58,8 @@ jobs:
         run: sudo rpm-ostree compose tree --repo=repo --unified-core --cachedir=cache thedora.yaml
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          skopeo login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
 
       - name: Create docker image
         run: sudo rpm-ostree compose container-encapsulate --repo=repo fedora/37/x86_64/thedora docker://ghcr.io/thobianchi/thedora:37
