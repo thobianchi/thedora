@@ -50,10 +50,10 @@ jobs:
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
 
       - name: Build tree
-        run: rpm-ostree compose tree --repo=repo --unified-core --cachedir=cache thedora.yaml
+        run: sudo rpm-ostree compose tree --repo=repo --unified-core --cachedir=cache thedora.yaml
 
       - name: Create docker image
-        run: rpm-ostree compose container-encapsulate --repo=repo fedora/37/x86_64/thedora docker://localhost/thedora:37
+        run: sudo rpm-ostree compose container-encapsulate --repo=repo fedora/37/x86_64/thedora docker://localhost/thedora:37
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
       # https://github.com/macbre/push-to-ghcr/issues/12
