@@ -24,6 +24,11 @@ jobs:
       - name: Install build dependencies
         run: dnf install -y ostree rpm-ostree tar git rpm-ostree selinux-policy selinux-policy-targeted policycoreutils binutils
 
+      - name: Install Docker CLI
+        run: |
+          export DOCKERVERSION=18.03.1-ce
+          curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1                  -C /usr/local/bin docker/docker   && rm -f docker-${DOCKERVERSION}.tgz
+
       - name: Checkout This Repo
         uses: actions/checkout@v3
         with:
