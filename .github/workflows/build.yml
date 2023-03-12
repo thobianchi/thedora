@@ -20,12 +20,12 @@ jobs:
 
     steps:
       - name: Install build dependencies
-        run: dnf install -y ostree rpm-ostree tar git rpm-ostree selinux-policy selinux-policy-targeted policycoreutils binutils skopeo
+        run: dnf install -y ostree rpm-ostree tar git rpm-ostree selinux-policy selinux-policy-targeted policycoreutils binutils rsync
 
-      - name: Install Docker CLI
-        run: |
-          export DOCKERVERSION=18.03.1-ce
-          curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1                  -C /usr/local/bin docker/docker   && rm -f docker-${DOCKERVERSION}.tgz
+          #- name: Install Docker CLI
+          #  run: |
+          #    export DOCKERVERSION=18.03.1-ce
+          #    curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1                  -C /usr/local/bin docker/docker   && rm -f docker-${DOCKERVERSION}.tgz
 
       - name: Checkout This Repo
         uses: actions/checkout@v3
@@ -53,7 +53,9 @@ jobs:
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
 
       - name: Build tree
-        run: sudo rpm-ostree compose tree --repo=repo --unified-core --cachedir=cache thedora.yaml
+        run: |
+          sudo rpm-ostree compose tree --repo=repo --unified-core --cachedir=cache thedora.yaml
+          ostree summary --repo=repo --update
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

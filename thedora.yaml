@@ -28,7 +28,5 @@ packages:
   - libva-utils
   # - mozilla-openh264
   - pam-u2f
-  - tilix
-  - tilix-nautilus
-  - tmux
+  - kitty
   - zsh
