@@ -16,9 +16,7 @@ jobs:
       image: registry.fedoraproject.org/fedora:37
       options: --privileged
     permissions:
-      contents: read
-      packages: write
-      id-token: write
+      contents: writes
 
     steps:
       - name: Install build dependencies
@@ -57,12 +55,17 @@ jobs:
       - name: Build tree
         run: sudo rpm-ostree compose tree --repo=repo --unified-core --cachedir=cache thedora.yaml
 
-      - name: Login to GitHub Container Registry
-        run: |
-          skopeo login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: repo
 
-      - name: Create docker image
-        run: sudo rpm-ostree compose container-encapsulate --repo=repo fedora/37/x86_64/thedora docker://ghcr.io/thobianchi/thedora:37
+      #- name: Login to GitHub Container Registry
+      #  run: |
+      #    skopeo login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+
+      #- name: Create docker image
+      #  run: sudo rpm-ostree compose container-encapsulate --repo=repo fedora/37/x86_64/thedora docker://ghcr.io/thobianchi/thedora:37
 
       ## Push the image to GHCR (Image Registry)
       #- name: Push To GHCR
