@@ -38,7 +38,7 @@ jobs:
       - name: Get Date for Cache
         id: get-date
         run: |
-          echo "date=$(/bin/date -u "+%Y%V")" >> $GITHUB_OUTPUT
+          echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: Init build
@@ -51,11 +51,15 @@ jobs:
         with:
           path: cache
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}
+          restore-keys: ${{ runner.os }}
 
       - name: Build tree
         run: |
           sudo rpm-ostree compose tree --repo=repo --unified-core --cachedir=cache thedora.yaml
           ostree summary --repo=repo --update
+
+      - name: config git
+        run: git config --global http.postBuffer 157286400
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
