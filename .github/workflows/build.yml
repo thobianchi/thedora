@@ -17,6 +17,7 @@ jobs:
       packages: write
       id-token: write
     env:
+      SOURCE_IMAGE: silverblue
       IMAGE_NAME: thedora
       FEDORA_MAJOR_VERSION: 37
 
