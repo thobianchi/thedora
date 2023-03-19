@@ -1,0 +1,41 @@
+{
+  "all": {
+      "include": {
+          "all": [
+            "dconf-editor",
+            "ffmpeg",
+            "ffmpeg-libs",
+            "fido2-tools",
+            "firewall-config",
+            "fzf",
+            "gnome-tweaks",
+            "gparted",
+            "intel-media-driver",
+            "libva-utils",
+            "pam-u2f",
+            "kitty",
+            "zsh"
+          ]
+      },
+      "exclude": {
+          "all": [
+          ]
+      }
+  },
+  "37": {
+      "include": {
+          "all": []
+      },
+      "exclude": {
+          "all": []
+      }
+  },
+  "38": {
+      "include": {
+          "all": []
+      },
+      "exclude": {
+          "all": []
+      }
+  }
+}
