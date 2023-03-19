@@ -43,8 +43,7 @@ jobs:
           containerfiles: |
             ./Containerfile
           image: ${{ env.IMAGE_NAME }}
-          tags: |
-            ${{ steps.generate-tags.outputs.alias_tags }}
+          tags: ${{ steps.meta.outputs.tags }}
           build-args: |
             IMAGE_NAME=${{ env.IMAGE_NAME }}
             SOURCE_IMAGE=${{ env.SOURCE_IMAGE }}
